@@ -37,6 +37,7 @@ export interface Typegen0 {
       type: "xstate.after(3000)#Todos Machine.Deleting todo errored";
     };
     "xstate.init": { type: "xstate.init" };
+    "xstate.stop": { type: "xstate.stop" };
   };
   invokeSrcNameMap: {
     deleteTodo: "done.invoke.Todos Machine.Show Todos.Deleting todo:invocation[0]";
@@ -57,6 +58,10 @@ export interface Typegen0 {
     assignFormInputToContext: "Form input changed";
     assignTodoToDeleteToContext: "Delete todo";
     assignTodosToContext: "done.invoke.Todos Machine.Loading Todos:invocation[0]";
+    resetTodoToDelete:
+      | "Back"
+      | "xstate.after(3000)#Todos Machine.Deleting todo errored"
+      | "xstate.stop";
   };
   eventsCausingDelays: {};
   eventsCausingGuards: {

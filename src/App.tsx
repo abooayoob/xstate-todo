@@ -24,7 +24,7 @@ function App() {
                 <li key={todo}>
                   <p>
                     {todo}{" "}
-                    {state.matches("Show Todos.Deleting todo") ? (
+                    {state.context.todoToDelete === todo ? (
                       "Deleting..."
                     ) : (
                       <button
