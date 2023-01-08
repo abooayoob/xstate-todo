@@ -2,14 +2,16 @@ import { createMachine, assign } from "xstate";
 import { dbApi } from "./api";
 
 export const todosMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QBUD2FWwAQFkCGAxgBYCWAdmAHQAyqeE5UWaGsAxBhZeQG6oDWVFplyFSXWvUbN0mBL1QE8AFxKoyAbQAMAXW07EoAA6YSq9YZAAPRACYAHPcoBmAKyv7rh1vsBOV1pazgA0IACeiM72AOyUACwAbK4JtrbOzgCMGY7OAL65ocLY+MTkVJIMZExFHOpUCoKURaKlEnSV1bKw8mR8SuaauhoZBkggJrBmamSWNggJQZQJMUHRcXG+gfahEQjOvrGJHtFatpsOB3kFIM0l4uXt0jVgAE4vqC+URgA2KgBmHwAtk0ui17jRHlUZKwen0VNN9PpLBMphYxnNllpKLYtL5nAk8Rl0lpljtEBktLFlhlXBl-ETotFXEz8oVQXcypQAMpEVAAd2hmDYAGEXmAVGAsBQBcpZEixiiBrNyftbJRomdbMy3BlGdEQuFEAk4s4lpsohsCdS4qybuyxJyefzBbBKAARMDfMCqKGyjC1LgNIT21pUJ0Coruz3e6R+1CwxTw9SI3TI0xK9Hk3xq6L2ZxnfNaxn2Y1khDMjLY3wpInOaLLXw0223B1ccMuqNen1MONsV7vT4-f5AkGsMGO3kRrqdmO+2QJ-oIoaphXp6bKhAahKUClxWz6uvZSlxMv2U7qjw4xIbOJnjLNkPg9uRkgQL1sD1dyVx+XGNdo0A5jPWI1kZLQMivVx0gyMtjV8eIS0yOISXzHwrjZMcOS4UVxW7KUwBlWRuUnaQAReQEsHIIwAFdlDYAAxIFKLIGjlCwYg8CqSBf3Gf8ZkzBAKR8Fx62iCDVlvM4y3zVwEMCJl90bLRaWiB9MNbKgcPhKFpSwONiP5UimKo2i2C5aiACNATMHjFXXASiTPeI62PexHPrVxpK0OId3Aul8Sg9w6TUkQsM0sVtKYXT9K5PAeFjWQA3qXoBGDdTQ0oLS8OiojYviucMAXJNBj0Fc-0mDNAJVfZKGrPFlJSZD7FsMsAFpnCxJlshLILEhpewQuKDTMoi7KCL03K4oS-1+w+L5fmUMjgRbDKsukHKMG5KaCvjBRF2TZdRnK1F+KqwS63got9iiBIMgWXwy2ybcTXsOJomrGIEnuwbx2w0b1vGmLtp7WQsFmsUIDYAAhQh+FsviNyyZT4gSfVlhORlbBPQ1BNxWrUnOCCIN8RwEh+sKRtwgHCM2vLptQMG3g+SA2CsWBlAlSg8D+ZRXgACg6wIAEo2BW8E1p0wHJvykGMEZgduLK3iKvss6snrHd9QyE13DOCloketzav1ZI0k8fyiXJ4bP1nWWGfBlmYYIOGlbsgDrDsW9KFxBYTcbfc808nGCScDVTjq8DwPzK2MptvC43l5nIbZjnea5nn+cFrQRbFzk4-pxOIfhlX3bmZxkNqjwdR8ZJMiSMsmVkwIINcfx60agbbTIdA4EsXOKDTEvTo9wT1nVPMC1SZlc1LHHWqyJw0gpVw3o2Dq3Jj8EKieLpB5OjdMlNRtcy3Hw4i8A4G8rWkUhX5rKQJXxN4nZ0ij3yqR+NWTbF1U5cyiPwlIyxQUrOfIkdJsyEles-Nsk4Oz5x2u-VWI8si6m9gSWu-tbwr1gtkWqHVbwAPAr4A4MCwxwJfG+MASDS5GjxNiX+AcAGbANsHDUVYl7Fj3K3J+1x+4PCkDtbADsIA0OHnME4skYhxAgvmc2OJWG7DSGqfct1aS+DessN6rgyGU0ivhGmqAxEbmrFiOsqNxJ1kkg9HGqRnKUm8jIukX0V46L4Y+TkEsopS1piRKES1mKsWMQ5Ck19Ui3hQqjMSijPY5mrDrbM5tsxk3celcW-1JaGK2jLCaGBglq2ND5AIiRjT4igQaJRiR1Q+BIY4O6tdUi6K8QY3JqBskFxEfklBAcXDGjpGkakWMEiPTxpsEm9ZPBROajaVJoVrbRnjqDTpq4h4bi1E4PMyFlLly3HdU8WNvbIQUp4AIRIZn5CAA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QBUD2FWwAQFkCGAxgBYCWAdmAHQAyqeE5UWaGsAxBhZeQG6oDWVFplyFSXWvUbN0mBL1QE8AFxKoyAbQAMAXW07EoAA6YSq9YZAAPRACYAzAE5K9p1oCsT2wA5HAFgA2ABoQAE9Eez8-SlstWNtHAHYtALiARjSAgF8skOFsfGJyKkkGMiZ8jnUqBUFKfNEiiToyitlYeTI+JXNNXQ00gyQQE1gzNTJLGwRU+0oA72T7RKjHLS1vEPCEJ0TKQPdFuLWfJPscvPbG8RKW6UqwACdH1EfKIwAbFQAzV4BbepXQo3Gh3coyVidboqCb6fSWUbjCzDabeLR7NKBPxaeyHby2WxpdxbRB+dwudFaRzUtKJZaE9zZXIgBrA4qUADKRFQAHcIZg2ABhR5gFRgLAUPnKWTw4aI3pTRBpLyURIJWzuOnuWmJOkkmZ+OYBNb2bx+RzGhaYi4soFidlc3n82CUAAiYA+YFU4OlGCqXFqQjtTSojr5+TdHq90l9qChihh6jhugRpgVKMQiWc3nxu0JqzJtn15rS+zRGwCpxxOL8NtZ9q4Yedkc93qYsbYTxeb0+P3+gNY1wd3PD7Rb0Z9snjPVh-RTcrTE0VCDVAUoaS0flsdOWaTRK31aNsqsOsSx-jRaTrwZBTYjJAgnrY7tb4tjsuMi+RoFR6NVfl1LQ0jPTx7DSfUAnNMsAjA7EYNibxzmZesQ0oAAlL1HlCLAPjBdt2jYKxYGUMVKDwb5lCeAAKdx1gASjYFCQQw5QsJwvCsFjWAPxGL9JgzBAyTmdwt0iU1gLWRJ9UxPZINSNZEPsDZgNsa9BzZLgWLY3CpEnVhCOI0jyMox4aPoxib3ZLTsJ01pOPaAYhk-MZ0x-Ul8RiKkiUcekAkSYIwjsRZ5ncBI1UUzIMjUkQNKoYVRTbCUwClWRORHaRfkeP4sHIIwAFdlDYAAxf4crIfLlCwYg8HKSAePlJcBOAvxvH2RJ91SSslL8fVXFLY0CVNHEYICTrooKBs4pFGFwUleyMDS3kMtK3KCrYDk8oAIz+Mx6r45dMliShPDNU1EO8Y1-N6jcXGVXFII3bxgO8cahy4eKZqYObY05PAeBjWR-RqLoBCDdTJsoD7Eu+1KOT+gGMGnRM+j0ednKRfi3IQO7nAtHyPErbF8X1ABaJSTz3C73G1QIiRe5DLPe6boeS+bUF+-69NQTtnled4vmUTKASY9koekGGFrhzn8MRhQZyTOcnN4lzGqxyLnFxRZNRzSD7GkxxjwCWjINsKJzUJC7XtiyHmfF1mfqlhHUCwLtXkgNgACFCH4PaVe-awlUiclGUWextzDkTQukzJ11xFIWva6nHEQq2IbF2b7dh+GuZd3mRQgAySMosiKOopTzJFpmErtlLJezmXndd-PfYxg6-Bj7cyXRTVdTAzZAuxnN128TUNUxU2RKvBnwdQl8Jwb3Pu3dr2CB9tHldbgTTdaqlUi1RxgPa3EIOT1V4jxoCgLD1PZ6jRLY0Xt2C6IouqGMsv1i0BjK6oOf79kR+zd14NX9tMSIWhKCOEOLiR6jIwJG31IkamlB1jAXcFA-yhN6bMjIOgOAlgf6pj9pjAOOxSw5gcEkfM5oyS0lJipGI3ULroj3D4LcN8QSlHuO0Ihm8sYJAgYcNYdN6SBEcKTSIFMw41mrF4Dhw4nT5F4a5UhkFySEmSNuc6vh0T6k8KWWh0jQr2D8o4eRjYRzNj-k7ZRqtSEZFpCg40cCD7bxEhBPckCmFnSAtSRI5jQyWPvI+MAtjQGIGNHMDRcQj45kkhBNUMQDZgV1GaDU1IAnoUwjZDiXEwkkNRJ4dcyRaJnnRBbaSKxPI5jSD5Om6SkKXBniCdOX1M4YHyQdWIECAIdRSA4Tc+ofDzC3CPQ06J26mncJk1pSVa7szDMtLKZUKqdKapEfqDgzSBACN5HwQyoLrBHsnBY2s4gzNthneZHMbELmIQdHM0ROpxEQv4ZUUChmhUgYSSKmpTSmz3Bc6uVy2Y3Jzk3SAay1balagcamMEDb+E1NHNcKkcQWkxOiwkmTrHgrzpCu5fDSEalaohbEHhIirkyIeU2KDsRIJ8NTK+tZp4xQhlwrm2AIUQChaQqm+wWqRDqYaJSxIB6MpPHjLMKQ0EspyEAA */
   createMachine(
     {
+      predictableActionArguments: true,
       context: {
         todos: [] as string[],
         errorMessage: undefined as string | undefined,
         createNewTodoFormInput: "",
         todoToDelete: "",
+        retries: 0,
       },
       tsTypes: {} as import("./todoAppMachine.typegen").Typegen0,
       schema: {
@@ -40,15 +42,16 @@ export const todosMachine =
               {
                 target: "Show Todos",
                 cond: "Has todos",
-                actions: "assignTodosToContext",
+                actions: ["assignTodosToContext", "reset retries count"],
               },
               {
                 target: "Creating new todo",
+                actions: "reset retries count",
               },
             ],
             onError: [
               {
-                target: "Loading todos errored",
+                target: "Retry loading todos",
                 actions: "assignErrorMessageToContext",
               },
             ],
@@ -87,7 +90,20 @@ export const todosMachine =
           initial: "idle",
         },
 
-        "Loading todos errored": {},
+        "Retry loading todos": {
+          after: {
+            "500": [
+              {
+                target: "Loading Todos",
+                actions: "increase retries count",
+                cond: "not max retries",
+              },
+              {
+                target: "Loading todos errored",
+              },
+            ],
+          },
+        },
 
         "Creating new todo": {
           initial: "Showing form input",
@@ -147,12 +163,15 @@ export const todosMachine =
 
           exit: "resetTodoToDelete",
         },
+
+        "Loading todos errored": {},
       },
       id: "Todos Machine",
     },
     {
       guards: {
         "Has todos": (context, event) => event.data.length > 0,
+        "not max retries": (context, event) => context.retries < 5,
       },
       services: {
         loadTodos: async () => {
@@ -169,6 +188,12 @@ export const todosMachine =
         },
       },
       actions: {
+        "increase retries count": assign((context, event) => ({
+          retries: (context.retries += 1),
+        })),
+        "reset retries count": assign((context, event) => ({
+          retries: 0,
+        })),
         assignTodosToContext: assign((context, event) => ({
           todos: event.data,
         })),

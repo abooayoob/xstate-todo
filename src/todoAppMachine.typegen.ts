@@ -36,6 +36,9 @@ export interface Typegen0 {
     "xstate.after(3000)#Todos Machine.Deleting todo errored": {
       type: "xstate.after(3000)#Todos Machine.Deleting todo errored";
     };
+    "xstate.after(500)#Todos Machine.Retry loading todos": {
+      type: "xstate.after(500)#Todos Machine.Retry loading todos";
+    };
     "xstate.init": { type: "xstate.init" };
     "xstate.stop": { type: "xstate.stop" };
   };
@@ -58,6 +61,8 @@ export interface Typegen0 {
     assignFormInputToContext: "Form input changed";
     assignTodoToDeleteToContext: "Delete todo";
     assignTodosToContext: "done.invoke.Todos Machine.Loading Todos:invocation[0]";
+    "increase retries count": "xstate.after(500)#Todos Machine.Retry loading todos";
+    "reset retries count": "done.invoke.Todos Machine.Loading Todos:invocation[0]";
     resetTodoToDelete:
       | "Back"
       | "xstate.after(3000)#Todos Machine.Deleting todo errored"
@@ -66,12 +71,14 @@ export interface Typegen0 {
   eventsCausingDelays: {};
   eventsCausingGuards: {
     "Has todos": "done.invoke.Todos Machine.Loading Todos:invocation[0]";
+    "not max retries": "xstate.after(500)#Todos Machine.Retry loading todos";
   };
   eventsCausingServices: {
     deleteTodo: "Delete todo";
     loadTodos:
       | "done.invoke.Todos Machine.Creating new todo.Saving todo:invocation[0]"
       | "done.invoke.Todos Machine.Show Todos.Deleting todo:invocation[0]"
+      | "xstate.after(500)#Todos Machine.Retry loading todos"
       | "xstate.init";
     saveTodo: "Submit";
   };
@@ -83,6 +90,7 @@ export interface Typegen0 {
     | "Deleting todo errored"
     | "Loading Todos"
     | "Loading todos errored"
+    | "Retry loading todos"
     | "Show Todos"
     | "Show Todos.Deleting todo"
     | "Show Todos.idle"

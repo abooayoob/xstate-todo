@@ -20,7 +20,7 @@ export const dbApi = {
       (resolve, reject) => {
         const timeoutId = window.setTimeout(() => {
           const chance = Math.random();
-          const { upper, lower } = probability.good;
+          const { upper, lower } = probability.bad;
           if (chance < upper && chance > lower) {
             resolve({ data: this.todos, timeoutId });
           } else {

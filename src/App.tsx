@@ -7,7 +7,8 @@ function App() {
   return (
     <>
       <div>
-        {state.matches("Loading Todos") && <p>Loading...</p>}
+        {(state.matches("Loading Todos") ||
+          state.matches("Retry loading todos")) && <p>Loading...</p>}
 
         {state.matches("Show Todos") && (
           <>
@@ -53,6 +54,13 @@ function App() {
             >
               Back
             </button>
+          </div>
+        )}
+
+        {state.matches("Loading todos errored") && (
+          <div>
+            <p style={{ color: "red" }}>{state.context.errorMessage}</p>
+            <p>Experiencing som issues, please come back later.</p>
           </div>
         )}
 
